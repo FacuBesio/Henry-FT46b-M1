@@ -26,6 +26,23 @@ var c = function (a, b, c) {
 c(8, 9, 10);
 console.log(b);
 console.log(x);
+
+// var c = function (a, b, c) {
+//   var x = 10;
+//   console.log(x); // => 10
+//   console.log(a); // => 8
+//   var f = function (a, b, c) {
+//      b = a;
+//      console.log(b); // => 8
+//      b = c;
+//      console.log(b); // => 10
+//      var x = 5;
+//   };
+//   f(a, b, c);
+//   console.log(b); // => 9
+// };
+// console.log(b); // => 10
+// console.log(x); // => 1
 ```
 
 ```javascript
@@ -37,6 +54,15 @@ function foo() {
 }
 var bar = 1;
 baz = 2;
+
+// console.log(bar); // undefined
+// console.log(baz); // error (no esta definido como var, let o const)
+// foo();
+// function foo() {
+//    console.log('Hola!');
+// }
+// var bar = 1;
+// baz = 2;
 ```
 
 ```javascript
@@ -45,6 +71,12 @@ if (true) {
    var instructor = 'Franco';
 }
 console.log(instructor);
+
+// var instructor = 'Tony';
+// if (true) {
+//    var instructor = 'Franco';
+// }
+// console.log(instructor); // 'Franco'
 ```
 
 ```javascript
@@ -57,6 +89,15 @@ console.log(instructor);
    }
 })();
 console.log(instructor);
+// var instructor = 'Tony';
+// console.log(instructor); // 'Tony'
+// (function () {
+//    if (true) {
+//       var instructor = 'Franco';
+//       console.log(instructor); // 'Franco'
+//    }
+// })();
+// console.log(instructor); // 'Tony'
 ```
 
 ```javascript
@@ -70,6 +111,17 @@ if (true) {
 }
 console.log(instructor);
 console.log(pm);
+
+// var instructor = 'Tony';
+// let pm = 'Franco';
+// if (true) {
+//    var instructor = 'The Flash';
+//    let pm = 'Reverse Flash';
+//    console.log(instructor); // 'The Flash'
+//    console.log(pm); // 'Reverse Flash'
+// }
+// console.log(instructor); // 'The Flash'
+// console.log(pm); // 'Franco'
 ```
 
 ### Coerción de Datos
@@ -77,22 +129,22 @@ console.log(pm);
 ¿Cuál crees que será el resultado de la ejecución de estas operaciones?:
 
 ```javascript
-6 / "3"
-"2" * "3"
-4 + 5 + "px"
-"$" + 4 + 5
-"4" - 2
-"4px" - 2
-7 / 0
-{}[0]
-parseInt("09")
-5 && 2
-2 && 5
-5 || 0
-0 || 5
-[3]+[3]-[10]
-3>2>1
-[] == ![]
+6 / "3" // 2
+"2" * "3" // 6
+4 + 5 + "px" // 9px
+"$" + 4 + 5 // $45
+"4" - 2 // 2 
+"4px" - 2 // NaN
+7 / 0 // Infinity
+{}[0] // undefined
+parseInt("09") // 9
+5 && 2 // 2
+2 && 5 // 5
+5 || 0 // 5
+0 || 5 // 5 
+[3]+[3]-[10] // 23
+3>2>1 // false
+[] == ![] // true
 ```
 
 > Si te quedó alguna duda repasá con [este artículo](http://javascript.info/tutorial/object-conversion).
@@ -113,6 +165,19 @@ function test() {
 }
 
 test();
+
+
+// function test() {
+//   console.log(a); // undefined
+//   console.log(foo()); // 2
+
+//   var a = 1;
+//   function foo() {
+//      return 2;
+//   }
+// }
+
+// test();
 ```
 
 Y el de este código? :
@@ -128,7 +193,7 @@ function getFood(food) {
    return snack;
 }
 
-getFood(false);
+getFood(false); // undefined
 ```
 
 ### This
@@ -147,11 +212,11 @@ var obj = {
    },
 };
 
-console.log(obj.prop.getFullname());
+console.log(obj.prop.getFullname()); // 'Aurelio De Rosa'
 
 var test = obj.prop.getFullname;
 
-console.log(test());
+console.log(test()); // undefined
 ```
 
 ### Event loop
@@ -170,7 +235,7 @@ function printing() {
    console.log(4);
 }
 
-printing();
+printing(); // 1, 4, 3, 2
 ```
 
 </br >
