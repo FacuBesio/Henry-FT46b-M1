@@ -10,30 +10,139 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   search(isEven), donde isEven es una función que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
-function LinkedList() {}
+function LinkedList() {
+  this.head = null;
+}
 
-function Node(value) {}
+function Node(value) {
+  this.value = value;
+  this.next = null
+}
+
+// ! AGREGAR NODO:
+LinkedList.prototype.add = function (valor) {
+  const node = new Node(valor);
+  let current = this.head;
+
+  // ? Si la lista está vacía:
+  if (!this.head) {
+    this.head = node;
+  } else {
+
+    // ? si la lista ya tiene un nodo o más nodos:
+    while (current.next) {
+      current = current.next
+    }
+    current.next = node
+  }
+}
+
+// ! REMOVER NODO:
+LinkedList.prototype.remove = function () {
+  let current = this.head;
+
+  // ? Si la lista está vacía:
+  if (!this.head) return null;
+
+  // ? Si la lista tiene un nodo:
+  if (current.next === null) {
+    this.head = null;
+    return current.value;
+  }
+
+  // ? Si la lista tiene mas de un nodo:
+  while (current.next.next) {
+    current = current.next;
+  }
+
+  const lastValue = current.next.value;
+  current.next = null;
+  return lastValue;
+}
+
+// ! BUSCAR NODO:
+LinkedList.prototype.search = function (valor) {
+  let current = this.head;
+
+  while (current !== null) {
+    if (typeof valor !== 'function') {
+      if (current.value === valor) { return current.value; }
+    } else if (valor(current.value)) {
+      return current.value;
+    }
+    current = current.next;
+  }
+
+  return null;
+}
 
 /* EJERCICIO 2
 Implementar la clase HashTable.
 Nuetra tabla hash, internamente, consta de un arreglo de buckets (slots, contenedores, o casilleros; es decir, posiciones posibles para almacenar la información), donde guardaremos datos en formato clave-valor (por ejemplo, {instructora: 'Ani'}).
 Para este ejercicio, la tabla debe tener 35 buckets (numBuckets = 35). (Luego de haber pasado todos los tests, a modo de ejercicio adicional, pueden modificar un poco la clase para que reciba la cantidad de buckets por parámetro al momento de ser instanciada.)
-
+ 
 La clase debe tener los siguientes métodos:
   - hash: función hasheadora que determina en qué bucket se almacenará un dato. Recibe un input alfabético, suma el código numérico de cada caracter del input (investigar el método charCodeAt de los strings) y calcula el módulo de ese número total por la cantidad de buckets; de esta manera determina la posición de la tabla en la que se almacenará el dato.
   - set: recibe el conjunto clave valor (como dos parámetros distintos), hashea la clave invocando al método hash, y almacena todo el conjunto en el bucket correcto.
   - get: recibe una clave por parámetro, y busca el valor que le corresponde en el bucket correcto de la tabla.
   - hasKey: recibe una clave por parámetro y consulta si ya hay algo almacenado en la tabla con esa clave (retorna un booleano).
-
+ 
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
-function HashTable() {}
+function HashTable() {
+  this.numBuckets = 35;
+  this.buckets = [];
+}
+
+// ! HASH:
+HashTable.prototype.hash = function (key) {
+  let resultado = 0;
+
+  for (let i = 0; i < key.length; i++) {
+    resultado = resultado + key.charCodeAt(i);
+  }
+
+  return resultado % this.numBuckets; // Obtenemos el Indice donde se va a guardar. 
+}
+
+
+
+
+// ! SET:
+HashTable.prototype.set = function (key, value) {
+  if (typeof key !== 'string') throw TypeError('Keys must be strings');
+
+  let indice = this.hash(key);
+
+  if(!this.buckets[indice]) this.buckets[indice] = {}; // Si la posicion esta vacia, se genera un Objeto vacio.
+
+  this.buckets[indice][key] = value; // Se guarda en el objero la Clave : Valor, en el Indice del Array.
+}
+
+// const hashTable = new HashTable();
+
+// console.log(hashTable.set('instructora', 1234));
+
+// console.log(hashTable.buckets);
+
+// ! GET:
+HashTable.prototype.get = function(key) { 
+  let indice = this.hash(key);
+
+  return this.buckets[indice][key];
+}
+
+// ! HASKEY:
+HashTable.prototype.hasKey = function(key) {
+  if(this.get(key)) return true;
+  return false;
+ }
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
 
 module.exports = {
-   Node,
-   LinkedList,
-   HashTable,
+  Node,
+  LinkedList,
+  HashTable,
 };
