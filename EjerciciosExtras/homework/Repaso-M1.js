@@ -16,7 +16,24 @@ const {
 
 var countArray = function(array) {
     // Tu código aca:
-    
+    /*
+        1. Sumemos los valores del arreglo
+        2. Me puedo topar con otro arreglo...
+        3. Tomar dos caminos:
+            - Qué hacemos si me encuentro con otro arreglo...aplico recursión
+            - Qué hacemos si me encuentro con un número -> sumamos
+    */
+
+    let suma = 0;
+
+    for (let i = 0; i < array.length; i++) {
+        if(Array.isArray(array[i])){
+            suma += countArray(array[i]);
+        } else {
+            suma += array[i];
+        }
+    }
+    return suma;
 }
 
 
@@ -40,6 +57,26 @@ var countArray = function(array) {
 var countProps = function(obj) {
     // Tu código aca:
 
+     /*
+        Los objetos los podemos recorrer? forin
+
+        1. Necesitamos un contador, que vaya contando las propiedades...
+        2. Recorrer los objetos
+        3. Si es una propiedad, sumarla a nuestro contador
+        4. Preguntar si la propiedad es un objeto y diferente a un array...aplicamos recursión
+        5. Si la propiedad es un objeto, sumarla y aplicamos recursión
+        6. Retornar contador.
+    */
+
+    let contador = 0;
+
+    for (const propiedad in obj) {
+        contador++;
+        if (typeof obj[propiedad] === 'object' && !Array.isArray(obj[propiedad])) {
+            contador += countProps(obj[propiedad]);    
+        }
+    }
+    return contador;
 }
 
 
@@ -53,6 +90,27 @@ var countProps = function(obj) {
 
 LinkedList.prototype.changeNotNumbers = function(){
     // Tu código aca:
+       /*
+    castear -> Coerción de datos
+    1. Recorrer la lista
+    2. chequeando que el valor del nodo no sea un número (isNaN)
+    3. Si no es un número, cambio el valor a kiricocho
+    4. Guardar los cambios realizados (contarlos)
+    */
+
+    let cambios = 0; 
+
+    let current = this.head;
+
+    while(current){
+        if(isNaN(Number(current.value))){
+            current.value = 'Kiricocho';
+            cambios++
+        }
+        current = current.next;
+    }
+
+    return cambios;
 
 }
 
@@ -67,6 +125,23 @@ LinkedList.prototype.changeNotNumbers = function(){
 
 var mergeQueues = function(queueOne, queueTwo) {
     // Tu código aca:
+    /*
+        1. Debemos utilizar los métodos de la clase Queue
+        2. No son arreglos -> obj instanciados de la clase Queue
+        3. Fijarnos en los tamaños de las queues que recibimos por parámetro
+        4. Objetivo: Combinar las queues -> alternada
+        5. Sacar cada item de cada queue y unirlo a la nueva queue
+        6. Retornar una queue (instancia de Queue)
+    */
+    
+    const newQueue = new Queue();
+
+    while(queueOne.size() || queueTwo.size()){
+        if(queueOne.size()) newQueue.enqueue(queueOne.dequeue());
+        if(queueTwo.size()) newQueue.enqueue(queueTwo.dequeue());
+    }
+
+    return newQueue;
 
 }
 
@@ -82,13 +157,32 @@ var mergeQueues = function(queueOne, queueTwo) {
 
 var closureMult = function(multiplier) {
     // Tu código aca:
-
+    return function(num){
+        return multiplier * num
+    }
 }
 
 // Implementar el método sum dentro del prototype de BinarySearchTree
 // que debe retornar la suma total de los valores dentro de cada nodo del arbol
 BinarySearchTree.prototype.sum = function() {
     // Tu código aca:
+
+     /*
+        1. Debemos sumar los valores de cada nodo del árbol
+        2. Si está vacío debe retornar 0
+        3. No nos olvidemos que los árboles son recursivos
+        4. Acumulando en una variable lo que vamos sumando 
+        5. Preguntar si tenemos izquierda y/o derecha
+    */
+
+    let suma = 0; 
+
+    suma += this.value;
+    
+    if(this.left) suma += this.left.sum();
+    if(this.right) suma += this.right.sum();
+
+    return suma; 
 
 }
 
